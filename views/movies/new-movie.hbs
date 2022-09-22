@@ -1,0 +1,29 @@
+
+<div class="form">
+  <h1>Add a new movie</h1>
+  <form class="create-form" action="/movies/create" method="post">
+    <input
+      name="title"
+      type="string"
+      value=""
+      placeholder="Enter the film"
+    />
+    <input
+      name="genre"
+      type="string"
+      value=""
+      placeholder="Enter the genre"
+    />
+    <textarea
+      name="plot"
+      placeholder="Enter some description of the film"
+    ></textarea>
+    <span>Select the cast: </span>
+    <select name="cast" class="form-select" multiple aria-label="multiple select example">
+      {{#each celebrities}}
+        <option value="{{this._id}}">{{this.name}}</option>
+      {{/each}}
+    </select>
+    <button type="submit" class="btn">Save!</button>
+  </form>
+</div>

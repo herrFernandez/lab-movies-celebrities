@@ -1,0 +1,8 @@
+<h1>All movies</h1>
+
+  {{#each movies}}
+  <div class="result-box">
+    <h2>{{this.title}}</h2>
+    <a href="/movies/{{this._id}}/">More about this movie</a>
+  </div>
+  {{/each}}

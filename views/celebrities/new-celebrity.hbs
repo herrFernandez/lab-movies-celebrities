@@ -1,23 +1,24 @@
-<h2>Add a new celebrity</h2>
-
-<form id="create-form" action="/celebrities/create" method="post">
-<input
-  name="name"
-  type="string"
-  value="{{name}}"
-  placeholder="Enter the name"
-/>
-<input
-  name="occupation"
-  type="string"
-  value="{{occupation}}"
-  placeholder="Enter the occupation"
-/>
-<input
-  name="catchPhrase"
-  type="string"
-  value="{{catchPhrase}}"
-  placeholder="Enter his/her most famuos sentence"
-/>
-<button type="submit">Save!</button>
-</form>
+<div class="form">
+  <h1>Add a new celebrity</h1>
+  <form class="create-form" action="/celebrities/create" method="post">
+    <input
+      name="name"
+      type="string"
+      value=""
+      placeholder="Enter the name"
+    />
+    <input
+      name="occupation"
+      type="string"
+      value=""
+      placeholder="Enter the occupation"
+    />
+    <input
+      name="catchPhrase"
+      type="string"
+      value=""
+      placeholder="Enter his/her most famuos sentence"
+    />
+    <button type="submit" class="btn">Save!</button>
+  </form>
+</div>

@@ -3,9 +3,6 @@
 {{#each celebrities}}
   <div class="result-box">
     <h2>{{this.name}}</h2>
-    <p>{{this.occupation}}</p>
-    <h3>Famous quote</h3>
-    <p>{{this.catchPhrase}}</p>
+    <a href="/celebrities/{{this._id}}">More about this celebrity</a>
   </div>
-  <a href="/celebrities/{{this._id}}/edit">Edit actor</a>
 {{/each}}

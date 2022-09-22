@@ -1,0 +1,31 @@
+
+<div class="result-box">
+  <h1>Edit movie</h1>
+<form class="create-form" action="/movies/:movieId" method="post">
+{{#with newMovieDetail}}
+<input
+  name="title"
+  type="string"
+  value="{{title}}"
+  placeholder="Enter the film"
+/>
+<input
+  name="genre"
+  type="string"
+  value="{{genre}}"
+  placeholder="Enter the genre"
+/>
+<textarea
+  name="plot"
+  placeholder="Enter some description of the film"
+>{{plot}}</textarea>
+{{/with}}
+<span>Select the cast: </span>
+<select name="cast" multiple>
+  {{#each newMovieDetail.cast}}
+    <option value="{{this._id}}">{{this.name}}</option>
+  {{/each}}
+</select>
+<button type="submit" class="btn">Save!</button>
+</form>
+</div>
