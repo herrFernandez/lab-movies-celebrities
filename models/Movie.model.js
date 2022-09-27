@@ -15,6 +15,11 @@ const movieSchema = new Schema({
         type: String,
     },
     cast: [{ type: mongoose.Schema.Types.ObjectId, ref: "celebrity" }],
+    slug: {
+        type: String,
+        unique: true,
+        required: true,
+      },
 });
 
 const Movie = mongoose.model("movie", movieSchema);

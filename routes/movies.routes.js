@@ -3,6 +3,8 @@ const router = require("express").Router();
 const { Movie } = require("../models/Movie.model");
 const { Celebrity } = require("../models/Celebrity.model");
 
+const { toSlug } = require("../utils/toSlug");
+
 // Create new movie
 router.get("/movies/create", async (req, res) => {
   try {
@@ -16,9 +18,10 @@ router.get("/movies/create", async (req, res) => {
 router.post("/movies/create", async (req, res) => {
   console.log(req.body);
   try {
-    const newMovie = new Movie({ ...req.body });
+    const slug = toSlug(req.body.title);
+    const newMovie = new Movie({ ...req.body, slug });
     await newMovie.save();
-    res.redirect("/movies");
+    res.redirect(`/movies/${slug}`);
   } catch (err) {
     res.render("movies/new-movie");
   }
@@ -35,11 +38,11 @@ router.get("/movies", async (req, res) => {
   }
 });
 
-router.get("/movies/:movieId", async (req, res) => {
+router.get("/movies/:movieSlug", async (req, res) => {
   try {
-    const foundMovie = await Movie.findById(req.params.movieId);
-    await foundMovie.populate("cast");
+    const foundMovie = await Movie.findOne({ slug: req.params.movieSlug });
     console.log(foundMovie);
+    await foundMovie.populate("cast");
     res.render("movies/movie-detail", { movieDetail: foundMovie });
   } catch (err) {
     res.render("not-found");
@@ -47,20 +50,19 @@ router.get("/movies/:movieId", async (req, res) => {
 });
 
 // Movie delete & edit
-router.post("/movies/:movieId/delete", async (req, res) => {
+router.post("/movies/:movieSlug/delete", async (req, res) => {
   console.log(req.body);
   try {
-    const deleteMovie = await Movie.findOneAndRemove(req.params.movieId);
+    const deleteMovie = await Movie.findOneAndDelete({ slug: req.params.movieSlug });
     res.redirect("/movies");
   } catch (err) {
     res.render("not-found");
   }
 });
 
-router.get("/movies/:movieId/edit", async (req, res) => {
+router.get("/movies/:movieSlug/edit", async (req, res) => {
   try {
-    const editMovie = await Movie.findById(req.params.movieId);
-    await editMovie.populate("cast");
+    const editMovie = await Movie.findOne({ slug: req.params.movieSlug });
     console.log(editMovie);
     res.render("movies/edit-movie", { newMovieDetail: editMovie });
   } catch (err) {
@@ -68,15 +70,21 @@ router.get("/movies/:movieId/edit", async (req, res) => {
   }
 });
 
-router.post("/movies/:movieId/edit", async (req, res) => {
+router.post("/movies/:movieSlug/edit", async (req, res) => {
   console.log(req.body);
   try {
-    const editMovie = Object.fromEntries(
+    const sanitizedBody = Object.fromEntries(
       Object.entries(req.body).map([key, value]) 
     );
+    
+    const newSlug = toSlug(sanitizedBody.title);
+    const sanitizedSlug = req.sanitize(req.params.movieSlug);
 
-    await Movie.findOneAndUpdate(editMovie);
-    res.redirect("/movies");
+    await Movie.findOneAndUpdate(
+      { slug: sanitizedSlug },
+      { ...sanitizedBody, slug: newSlug }
+    );
+    res.redirect(`/movies/${newSlug}`);
   } catch (err) {
     res.render("not-found");
   }

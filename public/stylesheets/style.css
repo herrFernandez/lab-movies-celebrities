@@ -60,3 +60,7 @@ select {
   color: white !important;
   border: none;
 }
+.form-control {
+  height: 40px;
+  margin-top: 15;
+}

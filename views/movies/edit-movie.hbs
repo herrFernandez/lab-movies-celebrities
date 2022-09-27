@@ -1,8 +1,8 @@
 
 <div class="result-box">
   <h1>Edit movie</h1>
-<form class="create-form" action="/movies/:movieId" method="post">
 {{#with newMovieDetail}}
+<form class="create-form" action="/movies/{{slug}}/edit" method="post">
 <input
   name="title"
   type="string"
@@ -23,7 +23,7 @@
 <span>Select the cast: </span>
 <select name="cast" multiple>
   {{#each newMovieDetail.cast}}
-    <option value="{{this._id}}">{{this.name}}</option>
+    <option value="{{cast._id}}">{{cast.name}}</option>
   {{/each}}
 </select>
 <button type="submit" class="btn">Save!</button>

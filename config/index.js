@@ -16,7 +16,7 @@ const favicon = require("serve-favicon");
 // ℹ️ global package used to `normalize` paths amongst different operating systems
 // https://www.npmjs.com/package/path
 const path = require("path");
-
+const expressSanitizer = require("express-sanitizer");
 // Middleware configuration
 module.exports = (app) => {
   // In development environment the app logs
@@ -25,6 +25,7 @@ module.exports = (app) => {
   // To have access to `body` property in the request
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
+  app.use(expressSanitizer());
   app.use(cookieParser());
 
   // Normalizes the path to the views folder
